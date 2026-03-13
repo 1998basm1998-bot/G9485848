@@ -1,0 +1,163 @@
+/* إعدادات عامة */
+* { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
+
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: #fff;
+    min-height: 100vh;
+    padding-bottom: 100px; /* ترك مساحة للقائمة السفلية */
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 🌟 التصميم الزجاجي 🌟 */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    color: #fff;
+}
+
+/* ================= 🌟 القائمة السفلية المتحركة 🌟 ================= */
+.bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 600px;
+    height: 75px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 40px;
+    z-index: 1000;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    color: #a0aec0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    position: relative;
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.nav-btn .icon {
+    font-size: 24px;
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+}
+
+.nav-btn .text {
+    position: absolute;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: #00d2ff;
+}
+
+/* خلفية دائرية تظهر عند التفعيل */
+.nav-btn::before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 210, 255, 0.2);
+    border-radius: 50%;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 1;
+}
+
+/* الأنميشن عند تفعيل الزر */
+.nav-btn.active::before { opacity: 1; transform: scale(1.1); }
+.nav-btn.active { color: #00d2ff; }
+.nav-btn.active .icon { transform: translateY(-18px) scale(1.1); text-shadow: 0 0 15px rgba(0, 210, 255, 0.8); }
+.nav-btn.active .text { opacity: 1; transform: translateY(12px); }
+
+
+/* مساحة العمل */
+.main-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+header h1 { color: #00d2ff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); text-align: center;}
+header p { color: #ccc; text-align: center; margin-bottom: 20px;}
+.screen { display: none; animation: fadeIn 0.4s; }
+.active-screen { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+.card { padding: 25px; margin-bottom: 30px; }
+.card h3 { border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; margin-bottom: 20px; color: #00d2ff;}
+
+/* الحقول */
+.input-row { display: flex; gap: 15px; flex-wrap: wrap; }
+.input-group { flex: 1; min-width: 200px; margin-bottom: 15px; }
+.input-group label { display: block; margin-bottom: 8px; font-weight: bold; }
+.input-group input, .input-group select {
+    width: 100%; padding: 10px 15px; background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; color: #333; font-weight: bold; outline: none;
+}
+
+/* الأزرار */
+.btn { padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; border: none; transition: 0.3s; }
+.btn-save { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: white; width: 100%; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);}
+.btn-save:hover { opacity: 0.9; transform: scale(0.98); }
+.btn-secondary { background: rgba(255,255,255,0.2); color: white; border: 1px solid white;}
+.btn-delete { background-color: #ff4b2b; color: white; padding: 6px 12px; border-radius: 5px; cursor: pointer; border: none;}
+.btn-print { background-color: #f1c40f; color: #333; padding: 6px 12px; border-radius: 5px; cursor: pointer; border: none;}
+
+/* الجداول */
+.table-responsive { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; min-width: 600px;}
+th, td { padding: 12px 15px; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.1); }
+th { background-color: rgba(255,255,255,0.1); color: #00d2ff; }
+.items-table input { width: 100%; padding: 8px; background: white; border-radius: 4px; border: none; color: black;}
+
+/* ================= إعدادات الطباعة والعلامة المائية ================= */
+#printArea { display: none; }
+
+@media print {
+    .no-print { display: none !important; }
+    body { background: white; color: black; margin: 0; padding: 0; min-height: auto;}
+    
+    #printArea {
+        display: block !important; position: absolute; left: 0; top: 0; width: 100%;
+        background-color: white; padding: 40px; min-height: 100vh;
+    }
+
+    .watermark-bg {
+        position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg);
+        font-size: 100px; color: rgba(0, 0, 0, 0.05); font-weight: bold; z-index: 1; pointer-events: none; white-space: nowrap;
+    }
+
+    .print-header { text-align: center; margin-bottom: 40px; border-bottom: 2px solid #333; padding-bottom: 20px; z-index: 10; position: relative;}
+    .print-header h1 { font-size: 35px; margin-bottom: 10px;}
+    .print-details { display: flex; justify-content: space-between; margin-bottom: 30px; font-size: 18px; z-index: 10; position: relative;}
+    .print-table { width: 100%; border-collapse: collapse; z-index: 10; position: relative;}
+    .print-table th, .print-table td { border: 1px solid #333; padding: 10px; text-align: right; }
+    .print-table th { background-color: #f2f2f2 !important; color: black; -webkit-print-color-adjust: exact;}
+    .print-total { text-align: left; margin-top: 30px; font-size: 24px; font-weight: bold; z-index: 10; position: relative;}
+}
