@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام الإدارة الحديث - واجهة زجاجية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main-content no-print">
+        
+        <div id="customersScreen" class="screen active-screen">
+            <header><h1>إدارة العملاء</h1><p>إضافة وتعديل بيانات عملائك</p></header>
+            <div class="card glass-panel">
+                <h3>إضافة عميل جديد</h3>
+                <form id="customerForm">
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>اسم العميل:</label>
+                            <input type="text" id="custName" required placeholder="أدخل اسم العميل">
+                        </div>
+                        <div class="input-group">
+                            <label>رقم الهاتف:</label>
+                            <input type="text" id="custPhone" required placeholder="مثال: 07...">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>العنوان:</label>
+                        <input type="text" id="custAddress" placeholder="المدينة، المنطقة">
+                    </div>
+                    <button type="submit" class="btn btn-save">حفظ العميل</button>
+                </form>
+            </div>
+            <div class="card glass-panel">
+                <h3>قائمة العملاء</h3>
+                <div class="table-responsive">
+                    <table id="customersTable">
+                        <thead><tr><th>الاسم</th><th>الهاتف</th><th>العنوان</th><th>إجراءات</th></tr></thead>
+                        <tbody id="customersTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotesScreen" class="screen">
+            <header><h1>عروض السعر</h1><p>إصدار عروض أسعار للعملاء</p></header>
+            <div class="card glass-panel">
+                <h3>إنشاء عرض سعر</h3>
+                <form id="quoteForm">
+                    <div class="input-row">
+                        <div class="input-group"><label>العميل:</label><select id="quoteCustomer" required></select></div>
+                        <div class="input-group"><label>التاريخ:</label><input type="date" id="quoteDate" required></div>
+                    </div>
+                    <div class="items-section">
+                        <table class="items-table" id="quoteItemsTable">
+                            <thead><tr><th>المنتج</th><th>السعر</th><th>الكمية</th><th>الإجمالي</th><th>حذف</th></tr></thead>
+                            <tbody id="quoteItemsBody"></tbody>
+                        </table>
+                        <button type="button" class="btn btn-secondary" onclick="addItemRow('quoteItemsBody', 'quote')">+ إضافة منتج</button>
+                    </div>
+                    <div class="summary-section glass-panel">
+                        <div class="input-group"><label>خصم:</label><input type="number" id="quoteDiscount" value="0" min="0" oninput="calculateTotal('quote')"></div>
+                        <h3 class="total-text">المجموع: <span id="quoteGrandTotal">0</span></h3>
+                    </div>
+                    <button type="submit" class="btn btn-save" style="margin-top:15px;">حفظ العرض</button>
+                </form>
+            </div>
+            <div class="card glass-panel">
+                <div class="table-responsive">
+                    <table id="quotesListTable">
+                        <thead><tr><th>رقم</th><th>العميل</th><th>المبلغ</th><th>إجراءات</th></tr></thead>
+                        <tbody id="quotesListBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="invoicesScreen" class="screen">
+            <header><h1>إصدار الفواتير</h1><p>إدارة فواتير المبيعات وتحصيل الأموال</p></header>
+            <div class="card glass-panel">
+                <h3>إنشاء فاتورة جديدة</h3>
+                <form id="invoiceForm">
+                    <div class="input-row">
+                        <div class="input-group"><label>العميل:</label><select id="invoiceCustomer" required></select></div>
+                        <div class="input-group"><label>التاريخ:</label><input type="date" id="invoiceDate" required></div>
+                        <div class="input-group">
+                            <label>الدفع:</label>
+                            <select id="invoicePaymentMethod"><option value="كاش">كاش</option><option value="قسط">قسط</option></select>
+                        </div>
+                    </div>
+                    <div class="items-section">
+                        <table class="items-table" id="invoiceItemsTable">
+                            <thead><tr><th>المنتج</th><th>السعر</th><th>الكمية</th><th>الإجمالي</th><th>حذف</th></tr></thead>
+                            <tbody id="invoiceItemsBody"></tbody>
+                        </table>
+                        <button type="button" class="btn btn-secondary" onclick="addItemRow('invoiceItemsBody', 'invoice')">+ إضافة منتج</button>
+                    </div>
+                    <div class="summary-section glass-panel">
+                        <div class="input-group"><label>خصم:</label><input type="number" id="invoiceDiscount" value="0" min="0" oninput="calculateTotal('invoice')"></div>
+                        <h3 class="total-text">الإجمالي: <span id="invoiceGrandTotal">0</span></h3>
+                    </div>
+                    <button type="submit" class="btn btn-save" style="margin-top:15px;">حفظ وإصدار الفاتورة</button>
+                </form>
+            </div>
+            <div class="card glass-panel">
+                <div class="table-responsive">
+                    <table id="invoicesListTable">
+                        <thead><tr><th>رقم</th><th>العميل</th><th>التاريخ</th><th>المبلغ</th><th>إجراءات</th></tr></thead>
+                        <tbody id="invoicesListBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="projectsScreen" class="screen">
+            <header><h1>إدارة المشاريع والكوادر</h1><p>سجل مصاريف وتفاصيل كل مشروع</p></header>
+            <div class="card glass-panel">
+                <h3>تسجيل مصروف أو كادر جديد لمشروع</h3>
+                <form id="projectForm">
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>اسم المشروع:</label>
+                            <input type="text" id="projName" required placeholder="مثال: مشروع بناء فيلا">
+                        </div>
+                        <div class="input-group">
+                            <label>اسم الكادر / العامل (إن وجد):</label>
+                            <input type="text" id="projStaff" placeholder="اسم الموظف أو المقاول">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>تفاصيل الصرفية:</label>
+                            <input type="text" id="projDetails" required placeholder="مثال: شراء مواد بناء، أجرة...">
+                        </div>
+                        <div class="input-group">
+                            <label>المبلغ المصروف:</label>
+                            <input type="number" id="projAmount" required min="0" placeholder="0">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-save" style="margin-top: 15px;">حفظ الصرفية للمشروع</button>
+                </form>
+            </div>
+            <div class="card glass-panel">
+                <h3>سجل المشاريع والصرفيات</h3>
+                <div class="table-responsive">
+                    <table id="projectsTable">
+                        <thead><tr><th>المشروع</th><th>الكادر</th><th>التفاصيل</th><th>المبلغ</th><th>التاريخ</th><th>حذف</th></tr></thead>
+                        <tbody id="projectsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="settingsScreen" class="screen">
+            <header><h1>النسخ الاحتياطي</h1><p>حفظ وتصدير بياناتك</p></header>
+            <div class="card glass-panel" style="text-align: center; padding: 50px;">
+                <h3 style="margin-bottom: 20px;">حفظ بياناتك في أمان</h3>
+                <p style="margin-bottom: 30px;">قم بتصدير جميع بيانات النظام (عملاء، فواتير، مشاريع) إلى ملف إكسل.</p>
+                <button class="btn btn-save" onclick="exportDataToExcel()" style="width: auto; padding: 15px 40px; font-size: 18px;">💾 تصدير كـ Excel</button>
+            </div>
+        </div>
+
+    </div> <nav class="bottom-nav no-print glass-panel">
+        <button class="nav-btn active" onclick="openScreen('customersScreen', this)">
+            <span class="icon">👥</span>
+            <span class="text">العملاء</span>
+        </button>
+        <button class="nav-btn" onclick="openScreen('quotesScreen', this)">
+            <span class="icon">📄</span>
+            <span class="text">العروض</span>
+        </button>
+        <button class="nav-btn" onclick="openScreen('invoicesScreen', this)">
+            <span class="icon">💰</span>
+            <span class="text">الفواتير</span>
+        </button>
+        <button class="nav-btn" onclick="openScreen('projectsScreen', this)">
+            <span class="icon">🏗️</span>
+            <span class="text">المشاريع</span>
+        </button>
+        <button class="nav-btn" onclick="openScreen('settingsScreen', this)">
+            <span class="icon">⚙️</span>
+            <span class="text">احتياطي</span>
+        </button>
+    </nav>
+
+    <div id="printArea" class="print-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
