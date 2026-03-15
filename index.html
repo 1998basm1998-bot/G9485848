@@ -55,10 +55,12 @@
                         <div class="input-group"><label>التاريخ:</label><input type="date" id="quoteDate" required></div>
                     </div>
                     <div class="items-section">
-                        <table class="items-table" id="quoteItemsTable">
-                            <thead><tr><th>المنتج</th><th>السعر</th><th>الكمية</th><th>الإجمالي</th><th>حذف</th></tr></thead>
-                            <tbody id="quoteItemsBody"></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="items-table" id="quoteItemsTable">
+                                <thead><tr><th>المنتج</th><th>السعر</th><th>الكمية</th><th>الإجمالي</th><th>حذف</th></tr></thead>
+                                <tbody id="quoteItemsBody"></tbody>
+                            </table>
+                        </div>
                         <button type="button" class="btn btn-secondary" onclick="addItemRow('quoteItemsBody', 'quote')">+ إضافة منتج</button>
                     </div>
                     <div class="summary-section glass-panel">
@@ -92,10 +94,12 @@
                         </div>
                     </div>
                     <div class="items-section">
-                        <table class="items-table" id="invoiceItemsTable">
-                            <thead><tr><th>المنتج</th><th>السعر</th><th>الكمية</th><th>الإجمالي</th><th>حذف</th></tr></thead>
-                            <tbody id="invoiceItemsBody"></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="items-table" id="invoiceItemsTable">
+                                <thead><tr><th>المنتج</th><th>السعر</th><th>الكمية</th><th>الإجمالي</th><th>حذف</th></tr></thead>
+                                <tbody id="invoiceItemsBody"></tbody>
+                            </table>
+                        </div>
                         <button type="button" class="btn btn-secondary" onclick="addItemRow('invoiceItemsBody', 'invoice')">+ إضافة منتج</button>
                     </div>
                     <div class="summary-section glass-panel">
